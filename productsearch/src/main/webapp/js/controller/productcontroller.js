@@ -12,6 +12,7 @@
 			vm.RetrieveObjectWeight = RetrieveObjectWeight;
 			//vm.response;
 			vm.categories;
+			vm.average;
 			vm.objectContent;
 			console.log("swami");
 			$http.get('webapi/productsearch').then(saveResponse);
@@ -33,7 +34,9 @@
 			
 			function parseWeightResponse(response)
 			{
-				vm.objectContent = response.data;
+				vm.objectContent = response.data.allObj[0];
+				console.log(vm.objectContent);
+				vm.average = response.data.averageWeight;
 			}
 		}
 

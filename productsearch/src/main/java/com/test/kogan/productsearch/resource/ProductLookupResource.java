@@ -27,7 +27,7 @@ public class ProductLookupResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getProductWeightPerType(@PathParam("category") String prodType){
 		
-		return service.getTotalProductWeight(prodType);
+		return service.getAverageProductWeight(prodType);
 	}
 	
 	

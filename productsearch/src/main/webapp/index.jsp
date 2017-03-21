@@ -46,6 +46,9 @@
                
         </tr>
         </table>
+        <div>
+    Average: {{ pctrl.average }}
+		</div>
         </div>
 
     </div>

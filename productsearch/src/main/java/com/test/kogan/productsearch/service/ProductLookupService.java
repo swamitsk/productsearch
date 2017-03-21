@@ -18,13 +18,18 @@ import org.json.JSONObject;
 
 public class ProductLookupService {
 
-	public String getTotalProductWeight(String category) {
+	public String getAverageProductWeight(String category) {
 
 		JSONArray allObject = new JSONArray();
+		JSONObject finalObject = new JSONObject(); 
+		double fullTotal = 0d; 
+		double count = 0D;
+	
 		try {
 
 			String baseUrl = "http://wp8m3he1wt.s3-website-ap-southeast-2.amazonaws.com";
 			String resource = "/api/products/1";
+			
 			while (!resource.equals("null")) {
 				URL url = new URL(baseUrl + resource);
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -65,10 +70,12 @@ public class ProductLookupService {
 						double val = Double.parseDouble(roundFormatter.format(width * height * length * 250));
 						
 						saleableObject.append("totalWeight", val);
+						fullTotal = fullTotal + val;
+						count++;
 						allObject.put(saleableObject);
 					}
 				}
-
+				
 				resource = jsonObject.getString("next");
 				conn.disconnect();
 			}
@@ -83,7 +90,16 @@ public class ProductLookupService {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return allObject.toString();
+		DecimalFormat roundFormatter = new DecimalFormat("########0.00000");
+
+		try {
+			finalObject.append("averageWeight",Double.parseDouble(roundFormatter.format(fullTotal/count)));
+			finalObject.append("allObj",allObject);
+
+		} catch (NumberFormatException | JSONException e) {
+			e.printStackTrace();
+		}
+		return finalObject.toString();
 	}
 
 	public String getAllProductCategories() {
